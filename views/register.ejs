@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ÇevirNet Kayıt Ol</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+    <link rel="stylesheet" href="/css/default.css"/>
+    <link rel="stylesheet" href="/css/layout.css"/>
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 mar-b-20">
+                <a href="/">
+                    <img src='/images/abautLogo.png' class="img-responsive center-block"/>
+                </a>
+            </div>
+        </div>
+        <!-- show any messages that come back with authentication -->
+        <div id="infoPart" class="row">
+
+        </div>
+        <!-- LOGIN FORM -->
+        <div class="row">
+            <form name="regForm" id="regForm" method="post" action="/admin/signup">
+                <div id="userLabel" class="form-group">
+                    <label for="username">Kullanıcı Adı:</label>
+                    <input type='text' autofocus required name='username' class='form-control' placeholder='Kullanıcı Adı'/>
+                </div>
+                <div id="passLabel" class="form-group">
+                    <label for="password">Parola:</label>
+                    <input type='password' name='password' id='password' class='form-control' placeholder='Parola' required>
+                </div>
+                <div id="emailLabel" class="form-group">
+                    <label for="email">Email</label>
+                    <input type='email' name='email' id='email' class='form-control' placeholder='Email' required>
+                </div>
+                <a class="pull-left mar-t-20" href="/admin/login">Giriş Yap</a>
+                <button id="loginButton" type="submit" class="btn btn-primary btn-lg pull-right">Kayıt Ol</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script src="scripts/jquery-1.9.1.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/jquery.mCustomScrollbar.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#regForm').submit(function () {
+            let username=$('#username').val();
+            let password=$('#password').val();
+            let email=$('#email').val();
+
+
+            if (!validateInputs(username, password,email)) {
+                return false;
+            }
+            $(this).ajaxSubmit({
+                error: function (xhr) {
+                    $('#infoPart').append('<div class="alert alert-danger ">' + xhr + '</div>');
+                },
+                success: function (response) {
+                    $('#infoPart').append('<div class="alert alert-success ">' +response + '</div>');
+                }
+            });
+            //Very important line, it disable the page refresh.
+            return false;
+        });
+
+
+        function validateInputs(username, password,email) {
+            $('#infoPart').empty();
+            if (username == '') {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen Kullanıcı Adı Giriniz !</div>');
+                $('#userLabel').addClass('has-error');
+                $('#userLabel').focus();
+                return false;
+            } else {
+                $('#userLabel').removeClass('has-error');
+            }
+            if (password == '') {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen Parola Giriniz !</div>');
+                $('#passLabel').addClass('has-error');
+                $('#passLabel').focus();
+                return false;
+            } else {
+                $('#passLabel').removeClass('has-error');
+            }
+            if (email == '') {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen Email Adresi Giriniz !</div>');
+                $('#emailLabel').addClass('has-error');
+                $('#emailLabel').focus();
+                return false;
+            } else if (!isEmailAddress(emailValue)) {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen geçerli bir email adresi giriniz!</div>');
+                $('#emailLabel').addClass('has-error');
+                $('#emailLabel').focus();
+                return false;
+            } else {
+                $('#emailLabel').removeClass('has-error');
+            }
+            return true;
+        }
+    });
+</script>
+</body>
+</html>

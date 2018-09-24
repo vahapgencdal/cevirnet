@@ -1,0 +1,164 @@
+<!-- views/login.ejs -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ÇevirNet Admin Girişi</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+    <link rel="stylesheet" href="/css/default.css"/>
+    <link rel="stylesheet" href="/css/layout.css"/>
+    <style>
+        body {
+            padding-top: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 mar-b-20">
+                <a href="/">
+                    <img src='/images/abautLogo.png' class="img-responsive center-block"/>
+                </a>
+            </div>
+        </div>
+        <!-- show any messages that come back with authentication -->
+        <div id="infoPart" class="row">
+
+        </div>
+        <!-- LOGIN FORM -->
+        <div class="row">
+            <form name="loginForm" id="loginForm" method="post" action="/admin/login">
+                <div id="userLabel" class="form-group">
+                    <label for="email">Kullanıcı Adı:</label>
+                    <input name="username" type="text" class="form-control" id="username">
+                </div>
+                <div id="passLabel" class="form-group">
+                    <label for="pwd">Parola:</label>
+                    <input type="password" name="password" class="form-control" id="password">
+                </div>
+                <a class="pull-left mar-t-20" href="/">Anasayfa</a>
+                <!--<a class="pull-left mar-t-20 mar-l-10" href="/admin/signup">Kayıt Ol</a> -->
+                <button id="loginButton" type="submit" class="btn btn-primary btn-lg pull-right">Giriş Yap</button>
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#QrCodeModal">QR CODE</button> -->
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div id="QrCodeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Authandicator</h4>
+            </div>
+            <div class="modal-body">
+                <form id="qrCodeForm" method="post" action="/admin/QRCodeUrlVerify">
+                    <img src='' id="imgQRCode" class="img-responsive center-block"/>
+                    <div class="form-group">
+                        <label for="txtTitle">Kodu Giriniz</label>
+                        <textarea class="form-control" id="txtToken" name="token" required rows="1"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">GİRİŞ</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="VerifyCode()" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/scripts/jquery-1.9.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/jquery.mCustomScrollbar.min.js"></script>
+<script>
+    function VerifyCode(){
+
+    }
+
+    $(document).ready(function () {
+
+        $.get("/admin/QRCodeUrl",
+            function (data, status) {
+                if (status == "success") {
+                    $('#imgQRCode').attr('src',data)
+                } else {
+                    $("#loading").hide();
+                   alert('hata');
+                }
+            });
+
+
+
+
+
+        $('#qrCodeForm').submit(function () {
+            $(this).ajaxSubmit({
+                error: function (xhr) {
+                    alert(xhr);
+                },
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        });
+
+
+
+        $('#loginForm').submit(function () {
+            let username=$('#username').val();
+            let password =$('#password').val();
+            if (!validateInputs(username, password)) {
+                return false;
+            }
+            $(this).ajaxSubmit({
+                error: function (xhr) {
+                    $('#infoPart').append('<div class="alert alert-danger ">' + xhr + '</div>');
+                },
+                success: function (response) {
+                    alert(response);
+                }
+            });
+            //Very important line, it disable the page refresh.
+            return false;
+        });
+
+
+        function validateInputs(username, password) {
+            $('#infoPart').empty();
+            if (username == '') {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen Kullanıcı Adı Giriniz !</div>');
+                $('#userLabel').addClass('has-error');
+                $('#userLabel').focus();
+                return false;
+            } else {
+                $('#userLabel').removeClass('has-error');
+            }
+            if (password == '') {
+                $('#infoPart').append('<div class="alert alert-danger ">Lütfen Parola Giriniz !</div>');
+                $('#passLabel').addClass('has-error');
+                $('#passLabel').focus();
+                return false;
+            } else {
+                $('#passLabel').removeClass('has-error');
+            }
+            return true;
+        }
+    });
+</script>
+</body>
+</html>

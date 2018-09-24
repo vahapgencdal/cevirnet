@@ -1,0 +1,216 @@
+/*
+	font-family: 'Roboto', sans-serif;
+*/
+
+body{background-color:#e9ebee;padding-bottom:70px;transition:.3s ease all;}
+header .menuBars{color:#0070bb;font-size:32px;display:none;cursor:pointer;}
+header .mobileLogo{display:none;}
+header .btn-link{display:none;}
+header .whiteLogo{display:none;}
+header .socialIcons{display:none;}
+.topMenu{margin-top:30px;}
+.topMenu .menu{margin:0;padding:0;}
+.topMenu .menu li{list-style-type:none;display:inline-block;margin-left:30px;}
+.topMenu .menu li:first-child{margin-left:0;}
+.topMenu .menu li a{color:#0070bb;text-decoration:none;padding-bottom:8px;font-family: 'Roboto', sans-serif;font-weight:500;}
+.topMenu .menu li a:hover,.topMenu ul li a.selected{border-bottom:4px solid #f7921e;}
+
+.manuCategory{margin-bottom:30px;}
+.manuCategory li{}
+.manuCategory li a{border-color: #929292 !important;color:#878787;padding:5px 10px;background: none;}
+.manuCategory li a:hover,.manuCategory li a.selected{color:#fff;background-color: #0070bb;}
+
+h1 a img{max-width:225px;}
+.miniMenu{width:65%;transition:all ease 1s;float:left;}
+.miniMenu.closed{width:80px;}
+.miniMenu ul{height: 70px;}
+.miniMenu{position:relative;}
+.miniMenu .miniMenuClose{background-color:#0070bb;position:absolute;top:0;right:-30px;height:70px;color:#fff;width:30px;font-size:20px;text-align:center;line-height:70px;border-top-right-radius:10px;border-bottom-right-radius:10px;cursor:pointer}
+.miniMenu .miniMenuClose:hover{background-color:#1a97eb;}
+.miniMenu .selected{float:left;border-right:1px solid #9e9e9e;background-color:#d8dadd !important;border-top-left-radius:10px;border-bottom-left-radius:10px;}
+.miniMenu .iconArea{width:80px;height:70px;display:inline-block;text-align:center;background-color:#c9cbce;padding-top: 14px;text-decoration:none;}
+.miniMenu .iconArea:hover{background-color:#d8dadd;}
+.miniMenu .iconArea:hover:not(.selected) .text{background-color:#d8dadd; color:#0070bb;}
+.miniMenu .icon{display:inline-block;width:46px;height:25px;}
+.miniMenu .text{font:500 12px 'Roboto', sans-serif;display:block;color:#878787;}
+
+
+.miniMenu  .rule .icon{background-position:0 -9px;}
+.miniMenu  .rule:hover:not(.selected) .icon{background-position:0 -53px;}
+.miniMenu  .angle .icon{background-position:-71px 0;}
+.miniMenu  .angle:hover:not(.selected) .icon{background-position:-71px -44px;;}
+.miniMenu  .weight .icon{background-position: -156px -4px;}
+.miniMenu  .weight:hover:not(.selected) .icon{background-position: -156px -48px;}
+.miniMenu  .area .icon{background-position: -240px 0px;}
+.miniMenu  .area:hover:not(.selected) .icon{background-position: -240px -44px;}
+.miniMenu  .pressure .icon{background-position: -323px 0px;}
+.miniMenu  .pressure:hover:not(.selected) .icon{background-position: -323px -44px;}
+.miniMenu  .data .icon{background-position: -404px 0px;}
+.miniMenu  .data:hover:not(.selected) .icon{background-position: -404px -44px;}
+.miniMenu  .storage .icon{background-position: -494px 1px;}
+.miniMenu  .storage:hover:not(.selected) .icon{background-position: -494px -43px;}
+.miniMenu  .energy .icon{background-position: -593px 1px;}
+.miniMenu  .energy:hover:not(.selected) .icon{background-position: -593px -43px;}
+.miniMenu  .frequency .icon{background-position: -682px 1px;}
+.miniMenu  .frequency:hover:not(.selected) .icon{background-position: -682px -43px;}
+.miniMenu  .speed .icon{background-position: -767px 0px;}
+.miniMenu  .speed:hover:not(.selected) .icon{background-position: -767px -44px;}
+.miniMenu  .sound .icon{background-position: -842px 1px;}
+.miniMenu  .sound:hover:not(.selected) .icon{background-position: -842px -43px;}
+.miniMenu  .temperature .icon{background-position: -926px 1px;}
+.miniMenu  .temperature:hover:not(.selected) .icon{background-position: -926px -43px;}
+.miniMenu  .fuel .icon{background-position: -1012px 1px;}
+.miniMenu  .fuel:hover:not(.selected) .icon{background-position: -1012px -43px;}
+.miniMenu  .time .icon{background-position: -1095px 0px;}
+.miniMenu  .time:hover:not(.selected) .icon{background-position: -1095px -44px;}
+
+
+.miniMenu .mCSB_dragger{width: 100px !important;}
+.miniMenu .mCSB_dragger > div{background-color:#0070bb !important;}
+.miniMenu .mCSB_scrollTools.mCSB_scrollTools_horizontal{bottom: -5px !important;}
+.miniMenu .mCSB_draggerRail{background:none !important;}
+
+.voiceControl{margin-top:10px;position:relative;}
+.voiceControl .popup{position: absolute;top: -28px;background-color: #929292;left: -185px;border-radius: 5px;font: 500 12px/16px 'Roboto', sans-serif;color: #fff;border-bottom-right-radius: 0;padding: 5px 10px;white-space: nowrap;display:none;}
+.voiceBtn{width:40px;height:45px;font-size:22px;margin-left:20px;line-height:35px;}
+.infoBtn{color:#929292;font-size:26px;vertical-align: middle;cursor:pointer;}
+
+.inputArea{margin-top:30px; text-align: center;}
+.inputArea .holder{width:45%;position:relative;display:block !important;}
+.inputArea .holder .bigInput{height:85px; width: 100%;background-color:#ffffff;border:none;border-top-left-radius:10px;border-top-right-radius:10px;color:#878787;font:900 48px 'Roboto', sans-serif;text-align:center;padding:0 20px;}
+
+.selectBoxContainer{position:relative;display:none;text-align:left;}
+.selectBoxContainer .selectBox{background-color: #0070bb;border-top: 2px solid #f7921e;color: #fff;font:500 24px 'Roboto', sans-serif;height: 55px;padding: 10px 30px;cursor:pointer;}
+.selectBoxContainer .selectBoxMenu{position: absolute;width: 100%;z-index:20;border-bottom-left-radius: 10px;border-bottom-right-radius: 10px;overflow: hidden; box-shadow: 0 5px 3px -1px #aaaaaa;}
+.selectBoxContainer .selectBoxMenu ul{height:180px;overflow:auto;margin:0;}
+.selectBoxContainer .selectBoxMenu li.title{padding:10px 15px;display:block;background-color:#0064a7;font:500 18px 'Roboto', sans-serif;color:#fff;display:none;}
+.selectBoxContainer .selectBoxMenu li.title i{ font-size: 48px !important;margin-top: -7px;overflow: hidden;vertical-align: middle !important;width: 30px;}
+.selectBoxContainer .selectBoxMenu li a{padding:10px 30px;display:block;background-color:#0064a7;font:500 18px 'Roboto', sans-serif;color:#fff;}
+.selectBoxContainer .selectBoxMenu li a:hover{background-color:#005d9c;text-decoration:none;}
+.selectBoxContainer .selectBoxMenu .mCSB_container{margin:0 !important;}
+.selectBoxContainer .selectBoxMenu .mCSB_dragger_bar{background-color:#fff;}
+.selectBoxContainer .selectBoxMenu .mCSB_draggerRail{background:none;}
+.selectBoxContainer .selectBoxMenu .mCSB_dragger{margin-top:5px;}
+
+.menuSelectBox{margin-top:20px;}
+.menuSelectBox .selectBox{border-top:none;border-radius:10px;padding-top: 20px !important;}
+
+.switchBtn{height:45px;width:45px;background-color:#d8dadd;border-radius:10px;display:inline-block;text-align:center;line-height: 40px;margin: 0 0 0 0;}
+.switchBtn:hover{background-color:#e3e4e4;}
+
+
+.innerContent h2{font:800 21px 'Roboto', sans-serif;color:#0070bb;margin-top:0;position:relative;}
+.innerContent h2 span{position:relative;}
+.innerContent h2 span:after{border-bottom: 4px solid #f7921e;bottom: -5px;content: " ";position: absolute;right: 0;width: 75%;}
+.innerContent p{font:500 13px/24px 'Roboto', sans-serif;color:#7b7c7e;margin-bottom:40px;}
+
+.contactForm .inputs{margin-top:30px;}
+.contactForm input[type="text"]{border:1px solid #cbd9dd;box-shadow:0 0 5px 5px #eef5f7;padding:7px 13px;}
+.contactForm textarea{margin-top:25px;border:1px solid #cbd9dd;box-shadow:0 0 5px 5px #eef5f7;width:100%;resize:none;height:120px;padding:7px 13px;}
+.contactForm .sendBtn{border:none;background-color:#0070bb;padding:8px 12px;color:#fff;font:500 14px 'Roboto', sans-serif;float:right;margin-top:10px;}
+.contactForm .sendBtn:hover{background-color:#0089e5;}
+
+
+footer{position:fixed;bottom:0;left:0;background-color:#d5d7da;padding:20px 0;width:100%;}
+footer span{color:#878787;font:500 14px 'Roboto', sans-serif;margin:10px 0 0 0;}
+.socialIcons{}
+.socialIcons li{margin-left:15px;}
+.socialIcons li a{color:#d5d7da;background-color:#878787;height:25px;width:25px;display:inline-block;border-radius:100%;text-align:center;font-size:12px;line-height:25px;}
+.socialIcons li a:hover{background-color:#b3b3b3;}
+.switchBtnMobile{display:none;}
+
+
+@media screen and (max-height:760px) {
+	.selectBoxContainer .selectBoxMenu ul {height: 140px;}
+}
+
+@media screen and (max-width: 1250px) {}
+
+@media screen and (max-width: 1200px) {}
+
+@media screen and (max-width: 1075px) {
+	/*footer{position:relative;margin-top:120px;}
+	footer span{font-size:18px;margin-top:5px;}
+	footer .socialIcons li a{width:30px;height:30px;font-size:14px;line-height:30px;}*/
+	
+}
+
+@media screen and (max-width: 1000px) {}
+
+@media screen and (max-width: 768px) {
+	
+	.contactForm > div{padding-right:15px !important;}
+}
+
+@media screen and (max-width: 750px) {
+
+	.selectBoxContainer .selectBoxMenu .mCSB_dragger_bar {background-color: transparent !important;}
+	footer{display:none;}
+	html{overflow-x:hidden;}
+	body{padding-bottom:40px;}
+	body.openMenu .wrapper{padding-left:75%;width: 160%;}
+	.topMenu.open{left:0;top:0;position:fixed;height:100%;}
+	
+	.innerContent{margin-top:30px !important;}
+	header {position:relative;}
+	header .btn-link{display: inline-block;position: absolute;padding: 0;right: 14px;top: 19px;}
+	header{background-color:#ffffff;padding:20px 15px;}
+	header .menuBars{display:inline-block;margin:0 0 0 -15px;}
+	header .mobileLogo{ display: block;margin: -40px auto 0;max-width: 100px;}
+	header .mobileLogo img{width:100%;}
+	header .whiteLogo{display:block;margin:30px 0 0 15px;max-width:130px;}
+	
+	header .socialIcons{bottom: 40px;display: block;left: 0;position: absolute;}
+	header .socialIcons li{margin-right:3px;}
+	header .socialIcons li a{width:45px;height:45px;font-size: 21px;line-height: 45px;background-color:#ffffff;color:#0070bb;}
+	
+	
+	h1,.socialIcons,.manuCategory,.miniMenu,.voiceControl,.contactLogo{display:none;}
+	.selectBoxContainer{display:block;position:static;}
+	.inputArea {margin-top: 20px;}
+	.inputArea .holder{position:static;width:100%;}
+	.selectBoxMenu{top:0;left:-100%;z-index:220;height:100% !important;position:fixed !important;transition:.5s ease;}
+	.selectBoxMenu.open{left:0 !important;display: block !important;}
+	.selectBoxContainer .selectBoxMenu li.title{display:block;cursor:pointer;}
+	.selectBoxContainer .selectBoxMenu li.title2 {padding:10px 0 10px 50px;display:block;font:500 18px 'Roboto', sans-serif;background-color:#e9ebee;color:#0070bb;}
+	.selectBoxContainer .selectBoxMenu{border-radius:0 !important;}
+	.holder .selectBoxMenu li a{padding-left:50px !important;}
+	
+	.selectBoxContainer .selectBoxMenu li a{background-color:#e9ebee;color:#878787;padding-left: 80px;}
+	.selectBoxContainer .selectBoxMenu li a:hover{color:#fff;}
+	.selectBoxContainer .selectBoxMenu ul{height:100% !important;}
+	.switchBtn{transform:rotate(-90deg);margin:15px 0 15px 0;}
+	.switchBtnDesktop{display:none;}
+	.switchBtnMobile{display:inline-block;}
+	footer{padding:15px 0;text-align:center;}
+	footer span.pull-left{font-size:9px;float:none !important;margin:0;}
+	
+	
+	.topMenu{ background-color: #0070bb;height: 100%;left: -100%;margin: 0;position: fixed;top: 0;width: 70%; z-index:20;transition:.3s ease all;}
+	.topMenu .menu {margin-top:40px;}
+	.topMenu .menu li{ display:block;float:none !important; margin:0;}
+	.topMenu .menu li a{ color:#fff !important; border:none !important;font-size:18px;padding:10px 15px; display:block;}
+	.topMenu .menu li a:hover{ background-color:#005d9c; }
+	.switchDivC{
+		float: none !important;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+}
+
+@media screen and (max-width:440px) {}
+
+@media screen and (max-width: 390px) {}
+
+@media screen and (max-width: 358px) {}
+
+@media screen and (max-width: 350px) {
+	
+}
+
+.leftUnitLink {
+
+}
+.rightUnitLink {
+	
+}

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ÇevirNet</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+    <link rel="stylesheet" href="/css/default.css"/>
+    <link rel="stylesheet" href="/css/layout.css"/>
+
+    <style type="text/css">
+        /*  <-   */
+        .triangle-left {
+            width: 50px;
+            height: 50px;
+            border-top: 50px solid transparent;
+            border-right: 100px solid red;
+            border-bottom: 50px solid transparent;
+        }
+
+        /* -> */
+        .triangle-right {
+            width: 50px;
+            height: 50px;
+            border-top: 50px solid transparent;
+            border-left: 100px solid red;
+            border-bottom: 50px solid transparent;
+        }
+
+        .modal {
+            position: fixed;
+            z-index: 999;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: Black;
+            filter: alpha(opacity=60);
+            opacity: 0.6;
+            -moz-opacity: 0.8;
+        }
+
+        .center {
+            z-index: 1000;
+            margin: 200px auto;
+
+            width: 200px;
+            background-color: #0070bb;
+            border-radius: 10px;
+            filter: alpha(opacity=20);
+            opacity: 1;
+            -moz-opacity: 1;
+        }
+
+        .center img {
+            height: 200px;
+            width: 200px;
+        }
+
+        #arrowDiv {
+                  border: solid black;
+                  border-width: 0 3px 3px 0;
+                  display: inline-block;
+                  padding: 3px;
+              }
+
+        #arrowDiv1 {
+            border: solid black;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .right {
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+
+        .left {
+            transform: rotate(135deg);
+            -webkit-transform: rotate(135deg);
+        }
+
+    </style>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-3061479924988558",
+            enable_page_level_ads: true
+        });
+    </script>
+</head>
+
+<body>
+<form name="contactForm" id="indexForm" method="post" onsubmit="return ValidateInputs();">
+    <div class="wrapper">
+        <!--Header Start-->
+        <% include header.ejs %>
+        <!--Header End-->
+        <!--Content Start-->
+        <div id="content">
+            <div class="container">
+                <h1>
+                    <a href="#">
+                        <img class="center-block" src="images/logo.png" alt="Çevir.NET"/>
+                    </a>
+                </h1>
+                <ul class="manuCategory horizontal pagination">
+                    <% for(let i = 0; i < menuCategories.length; i++) { %>
+                    <li>
+                        <a href="#"
+                           id='<%= JSON.stringify(menuCategories[i].categoryId);  %>' class=<%= i == 0 ? 'selected' : '' %> ><%= menuCategories[i].name %></a>
+                    </li>
+                    <% } %>
+                </ul>
+                <div class="clear">&nbsp;</div>
+                <!--Mini Menu Start-->
+                <div id="categoriesMiniMenu" class="miniMenu">
+                    <div id="selcateg_mini_menu" data-id='<%= categories[0]._id %>'
+                         class='selected iconArea'>
+                         <img class="icon" src='<%= categories[0].icon %>' />
+                        </span><span class="text"><%= categories[0].name %></span>
+                    </div>
+                    <ul class="horizontal">
+                        <% for(let i = 1; i < categories.length; i++) { %>
+                        <li>
+                            <a href="#" id='<%= categories[i]._id %>' class='iconArea'>
+                                <img class="icon" src='<%= categories[i].icon %>' />
+                                <span class="text"><%= categories[i].name %></span>
+                            </a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <!--Mini Menu Of Categories Fill with Service-->
+                    <div class="miniMenuClose"><i class="fa fa-chevron-right"></i></div>
+                </div>
+                <!--Mini Menu End-->
+                <div class="pull-right voiceControl">
+                    <i class="fa fa-info-circle infoBtn"></i>
+                    <span class="popup">
+                    Kısaltma Kullanılmaz. (BETA)<br/>
+                    <strong>Örnek:</strong> 5 Yard Kaç Kilometre ?
+                    </span>
+                    <a onclick="startRecording()"  class="btn btn-primary voiceBtn speechBtn">
+                        <i class="fa fa-microphone"></i>
+                    </a>
+                    <span style="visibility: hidden" id="recordResult"></span>
+                </div>
+                <div class="clear">&nbsp;</div>
+                <div class="selectBoxContainer menuSelectBox">
+                    <div class="selectBox fs14  pad-t-13">Birim seçmek için dokunun <i
+                                class="fa fa-chevron-up pull-right mar-t-2">&nbsp;</i></div>
+                    <div id="categoriesSelectBoxMenu" class="selectBoxMenu">
+                        <ul class="vertical">
+                            <li class="title"><i class="fa fa-long-arrow-left">&nbsp;</i> Birim Seçimi Yapın...</li>
+
+                            <% for(let index = 0; index < menuCategories.length; index++) { %>
+                            <li class="title2"><%= menuCategories[index].name %></li>
+                            <% for(let i = 0; i < categories.length; i++) { %>
+                            <% if(menuCategories[index].categoryId.indexOf(categories[i]._id) > -1) {%>
+                            <li>
+                                <a href="#" id='<%= categories[i]._id %>' class='<%= categories[i].icon %> iconArea'>
+                                <span class="icon"></span>
+                                    <span class="text"><%= categories[i].name %></span>
+                                </a>
+                            </li>
+                            <% }}} %>
+
+
+                        </ul>
+                        <!--Select Box Menu Of Categories Fill with Service-->
+                    </div>
+                </div>
+                <div class="clear">&nbsp;</div>
+                <!--Inputs Start-->
+                <section class="inputArea">
+
+                        <div class="pull-left holder selectBoxContainer">
+                            <input id="leftInput" type="text" class="bigInput focusInput"
+                                   onchange="SetValueToCalculate(this, true)"/>
+                            <div id="selectBoxSelectedItemleft" class="selectBox">
+                                <label class="pull-left"  id="selectBoxSelectedItemleftLabel"></label>
+                                <i class="fa fa-chevron-up pull-right">&nbsp;</i></div>
+                            <div id="leftUnitsMenu" class="selectBoxMenu">
+                                <ul id="units_left" class="vertical">
+                                    <li onclick="leftSideTitleClicked()" class="title"><i  class="fa fa-long-arrow-left">&nbsp;</i> Çeviri Seçimi Yapın...
+                                        (1/2)
+                                    </li>
+                                    <% for(var i = 0; i < subcategories.length; i++) { %>
+                                    <% for(var j = 0; j < subcategories[i].units.length; j++) { %>
+                                    <li>
+                                        <a href="#"
+                                           onclick="leftSideUnitClicked('<%= subcategories[i].units[j].name %>','<%= subcategories[i].units[j].value %>')"
+                                           class="leftUnitLink" data-code='<%= subcategories[i].units[j].scode %>'
+                                           data-value='<%= subcategories[i].units[j].value %>' id='<%= j + "_" + i %>'>
+                                            <%= subcategories[i].units[j].name %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                    <% } %>
+
+                                </ul>
+                                <!-- Left Units Will fill from Service -->
+                            </div>
+                        </div>
+                        <div class="pull-left mar-l-20 mar-r-20 switchDivC">
+                            <br>
+                            <a onclick="ChangeDirection()" class="switchBtn switchBtnMobile">
+                                <img width="32" height="32" src="/images/switch.png"/>
+                            </a>
+
+                            <a href="javascript:;" onclick="ChangeDirection()" class="switchBtn switchBtnDesktop">
+
+                                <img id="switchDiv" src="/images/switch.png" width="32px" height="32px" />
+
+                            </a>
+                        </div>
+                        <div class="pull-left holder selectBoxContainer">
+                            <input id="rightInput" type="text" class="bigInput"
+                                   onchange="SetValueToCalculate(this, false)"/>
+                            <div id="selectBoxSelectedItemright" class="selectBox">
+                                <label class="pull-left" id="selectBoxSelectedItemrightLabel"></label>
+                                <i class="fa fa-chevron-up pull-right">&nbsp;</i>
+                            </div>
+                            <div id="rightUnitsMenu" class="selectBoxMenu">
+                                <ul id="units_right" class="vertical">
+                                    <li onclick="rightSideTitleClicked()" class="title"><i class="fa fa-long-arrow-right">&nbsp;</i> Çeviri Seçimi Yapın...
+                                        (1/2)
+                                    </li>
+                                    <% for(var i = 0; i < subcategories.length; i++) { %>
+                                    <% for(var j = 0; j < subcategories[i].units.length; j++) { %>
+                                    <li>
+                                        <a href="#"
+                                           onclick="rightSideUnitClicked('<%= subcategories[i].units[j].name %>','<%= subcategories[i].units[j].value %>')"
+                                           class="leftUnitLink" data-code='<%= subcategories[i].units[j].scode %>'
+                                           data-value='<%= subcategories[i].units[j].value %>' id='<%= j + "_" + i %>'>
+                                            <%= subcategories[i].units[j].name %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                    <% } %>
+
+                                </ul>
+                                <!-- Right Units will fill from service -->
+                            </div>
+                        </div>
+                </section>
+                <!--Inputs End-->
+                <div class="clear">&nbsp;</div>
+            </div>
+        </div>
+        <!--Content End-->
+        <!--Footer Start-->
+        <% include footer.ejs %>
+        <!--Footer End-->
+    </div>
+
+    <div id="loading" class="modal" style="display: none">
+        <div class="center">
+            <img alt="" src="/images/sending.gif"/>
+        </div>
+    </div>
+    <div id="dataUrlcontainer" hidden></div>
+</form>
+<script src="/scripts/jquery-1.9.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/jquery.mCustomScrollbar.min.js"></script>
+<script src="/scripts/recorder.js"></script>
+<script src="/scripts/main.js"></script>
+<script type="text/javascript">
+    var leftFirst = true;
+    var leftUnit = "";
+    var rightUnit = "";
+    var leftUnitValue = "";
+    var rightUnitValue = "";
+    var valueToCalculate = "";
+
+    function ValidateInputs() {
+        if (leftUnit == '' || rightUnit == '' || valueToCalculate == '') {
+            return false;
+        }
+
+        return true;
+    }
+
+    function SetValueToCalculate(input, isLeft) {
+        if (input.value != '')
+        {
+            if(isLeft)
+            {
+                if(!leftFirst)
+                {
+                    leftFirst = true;
+                }
+            }
+            else {
+                if(leftFirst) {
+                    leftFirst = false;
+                }
+            }
+            valueToCalculate = input.value;
+            Calculate();
+        }
+    }
+
+    function ExChangeRightLeft_UnitValue(){
+        let tempValue = rightUnitValue;
+        rightUnitValue = leftUnitValue;
+        leftUnitValue = tempValue;
+    }
+function ExChangeRightLeft_InputValue(){
+
+            let tempValue = leftUnit;
+           // document.getElementById("selectBoxSelectedItemrightLabel").innerHTML=leftUnit;
+           // document.getElementById("selectBoxSelectedItemleftLabel").innerHTML=rightUnit;
+            $("#selectBoxSelectedItemrightLabel").text(leftUnit);
+            $("#selectBoxSelectedItemleftLabel").text(rightUnit);
+            leftUnit = rightUnit;
+            rightUnit = tempValue;
+
+            //tempValue = document.getElementById("leftInput").value;
+            //document.getElementById("leftInput").value = document.getElementById("rightInput").value;
+            //document.getElementById("rightInput").value = tempValue;
+            tempValue = $("#leftInput").val();
+            $("#leftInput").val($("#rightInput").val());
+            $("#rightInput").val(tempValue);
+
+}
+
+    function leftSideUnitClicked(unitName, value, isSpeech = false) {
+            $("#selectBoxSelectedItemleftLabel").text(unitName);
+
+           // document.getElementById("selectBoxSelectedItemleftLabel").innerHTML=unitName;
+
+            leftUnit = unitName;
+            leftUnitValue = value;
+
+            if(isSpeech)
+            {
+                Calculate();
+                leftSideTitleClicked();
+            }
+
+    }
+
+    function leftSideTitleClicked(){
+        $('#leftUnitsMenu').toggleClass('open',1000);
+        $('.selectBox').find('i').removeClass('fa-chevron-down');
+    }
+
+
+    function rightSideUnitClicked(unitName, value, isSpeech = false) {
+        //document.getElementById("selectBoxSelectedItemrightLabel").innerHTML=unitName;
+        $("#selectBoxSelectedItemrightLabel").text(unitName);
+            rightUnit = unitName;
+            rightUnitValue = value;
+        if(isSpeech) {
+            Calculate();
+            rightSideTitleClicked();
+        }
+    }
+    function rightSideTitleClicked(){
+        $('#rightUnitsMenu').toggleClass('open',1000);
+        $('.selectBox').find('i').removeClass('fa-chevron-down');
+    }
+
+    function ChangeDirection() {
+        if (leftFirst) {
+            leftFirst = false;
+        }
+        else {
+            leftFirst = true;
+        }
+
+        ExChangeRightLeft_InputValue();
+        ExChangeRightLeft_UnitValue();
+    }
+
+    function Calculate() {
+        $('#selectBoxSelectedItemright').css('border-color', '#f7921e');
+        $('#selectBoxSelectedItemleft').css('border-color', '#f7921e');
+        $('#leftInput').attr('placeholder','');
+        $('#rightInput').attr('placeholder','');
+        $('#rightInput').css('border-color', '#f7921e');
+        $('#leftInput').css('border-color', '#f7921e');
+
+        if(valueToCalculate == 'undefined' || valueToCalculate == '' || valueToCalculate == null){
+            if (leftFirst) {
+                $('#leftInput').css('border-color', 'red');
+                $('#leftInput').attr('placeholder','Değer giriniz!');
+            }else {
+                $('#rightInput').css('border-color', 'red');
+                $('#rightInput').attr('placeholder','Değer giriniz!');
+            }
+            return;
+        }else{
+            $('#leftInput').css('border-color', '#f7921e');
+            $('#leftInput').attr('placeholder','');
+
+            $('#rightInput').css('border-color', '#f7921e');
+            $('#rightInput').attr('placeholder','');
+        }
+
+
+        if(leftFirst){
+            if(leftUnitValue == 'undefined' || leftUnitValue == '' || leftUnitValue == null)
+            {
+                $('#selectBoxSelectedItemleft').css('border-color', 'red');
+                $('#selectBoxSelectedItemleftLabel').text('Seçiniz...');
+                return;
+            }else{
+                $('#selectBoxSelectedItemleft').css('border-color', '#f7921e');
+            }
+
+            if(rightUnitValue == 'undefined' || rightUnitValue == '' || rightUnitValue == null){
+                $('#selectBoxSelectedItemright').css('border-color', 'red');
+                $('#selectBoxSelectedItemrightLabel').text('Seçiniz...');
+                return;
+            }else{
+                $('#selectBoxSelectedItemright').css('border-color', '#f7921e');
+
+            }
+        }else{
+            if(rightUnitValue == 'undefined' || rightUnitValue == '' || rightUnitValue == null)
+            {
+                $('#selectBoxSelectedItemright').css('border-color', 'red');
+                $('#selectBoxSelectedItemrightLabel').text('Seçiniz...');
+                return;
+
+            }
+            else{
+                $('#selectBoxSelectedItemright').css('border-color', '#f7921e');
+
+            }
+
+            if(leftUnitValue == 'undefined' || leftUnitValue == '' || leftUnitValue == null)
+            {
+                $('#selectBoxSelectedItemleft').css('border-color', 'red');
+                $('#selectBoxSelectedItemleftLabel').text('Seçiniz...');
+                return;
+            }
+            else{
+                $('#selectBoxSelectedItemleft').css('border-color', '#f7921e');
+
+            }
+        }
+
+       /* $.ajaxSetup({
+            beforeSend: function () {
+                $("#loading").show();
+            }
+        });
+*/
+
+        $.ajaxSetup({
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+        $("#loading").show();
+
+        var data = {
+            leftUnitValue: leftUnitValue,
+            rightUnitValue: rightUnitValue,
+            leftUnit: leftUnit,
+            rightUnit: rightUnit,
+            valueToCalculate: valueToCalculate,
+            leftFirst: leftFirst
+
+        };
+
+        $.ajax({
+            url:"/calculate",
+            type:"POST",
+            data:JSON.stringify(data),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: function(data){
+                $("#loading").hide();
+                if(data.errorCode == '0')
+                {
+                    if(leftFirst)
+                    {
+                        document.getElementById('rightInput').value = data.errorMessage;
+                    }
+                    else
+                    {
+                        document.getElementById('leftInput').value = data.errorMessage;
+                    }
+                }
+                else{
+                    alert("Sonuç : " + data.errorMessage);
+                }
+
+            },
+            error:function (data) {
+                $("#loading").hide();
+                alert("errorr : " + data);
+
+            },
+            fail:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown);
+                console.log(jqXHR);
+                console.log(textStatus);
+            }
+        });
+    }
+</script>
+
+<script>
+    /*
+    var audioChunks = [];
+    navigator.mediaDevices.getUserMedia({audio:true})
+        .then(stream => {
+            rec = new MediaRecorder(stream);
+            rec.ondataavailable = e => {
+                audioChunks.push(e.data);
+                if (rec.state == "inactive"){
+                    let blob = new Blob(audioChunks,{type:'audio/wav'});
+                    callback(blob);
+                }
+            }
+        })
+        .catch(e=>console.log(e));
+
+
+     function callback(blob) {
+         var reader = new window.FileReader();
+         reader.readAsDataURL(blob);
+         reader.onloadend = function() {
+             var fd = new FormData();
+             fd.append('file', reader.result);
+             $.ajax({
+                 type: 'POST',
+                 url: "/speech/record",
+                 data: fd,
+                 processData: false,
+                 contentType: false
+             }).done(function(data) {
+                 console.log(data);
+             });
+         }
+
+
+
+     }
+
+    function startRecording() {
+        rec.start();
+        setTimeout(function(){
+            rec.stop();
+        }, 5000);
+    }
+    */
+
+
+    var r = document.getElementById('recordResult');
+
+    function startRecording () {
+        if('webkitSpeechRecognition' in window){
+            var speechRecognizer = new webkitSpeechRecognition();
+            speechRecognizer.continuous = true;
+            speechRecognizer.interimResults = true;
+            speechRecognizer.lang = 'tr-TR';
+            speechRecognizer.start();
+
+            var finalTranscripts = '';
+
+            speechRecognizer.onresult = function(event){
+                var interimTranscripts = '';
+                for(var i = event.resultIndex; i < event.results.length; i++){
+                    var transcript = event.results[i][0].transcript;
+                    //transcript.replace("\n", "<br>");
+                   // console.log(event.results[i]);
+                    if(event.results[i].isFinal){
+                        sendSpeechTextToBackEnd(transcript);
+                    }else{
+                        interimTranscripts += transcript;
+                    }
+                }
+            };
+
+            speechRecognizer.onerror = function (event) {
+            };
+        }else{
+            r.innerHTML = 'Your browser is not supported. If google chrome, please upgrade!';
+        }
+    }
+
+    function sendSpeechTextToBackEnd(words){
+       $.ajax({
+            url:"/speech/calculate",
+            type:"POST",
+            data:JSON.stringify({data:words}),
+            contentType:"application/json; charset=utf-8",
+            dataType:"json",
+            success: function(data){
+                if(data.errorCode==="SUCCESS"){
+                        $('#leftInput').val(data.result.leftValue===undefined?"":data.result.leftValue);
+                        $('#rightInput').val(data.result.rightValue===undefined?"":data.result.rightValue);
+
+                        rightSideUnitClicked(data.result.rightUnit, data.result.rightValue);
+
+                        leftSideUnitClicked(data.result.leftUnit, data.result.leftValue);
+
+                }
+            },
+            error:function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ÇevirNet</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+    <link rel="stylesheet" href="/css/default.css"/>
+    <link rel="stylesheet" href="/css/layout.css"/>
+    <style type="text/css">
+        .modal {
+            position: fixed;
+            z-index: 999;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: Black;
+            filter: alpha(opacity=60);
+            opacity: 0.6;
+            -moz-opacity: 0.8;
+        }
+
+        .center {
+            z-index: 1000;
+            margin: 200px auto;
+
+            width: 200px;
+            background-color: #0070bb;
+            border-radius: 10px;
+            filter: alpha(opacity=20);
+            opacity: 1;
+            -moz-opacity: 1;
+        }
+
+        .center img {
+            height: 200px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<form name="contactForm" id="myForm" method="post" action="/contact/iAmNotRobot">
+    <div class="wrapper">
+        <!--Header Start-->
+        <% include header.ejs %>
+        <!--Header End-->
+        <div class="clear">&nbsp;</div>
+        <section class="innerContent mar-t-100">
+            <div class="container">
+                <div class="row contactForm">
+                    <div class="col-md-7 col-sm-12 mar-b-100 pad-r-60">
+                        <h2 class="pull-left"><span>İletişim Formu</span></h2>
+                        <img class="pull-right mar-t-m-30 contactLogo" src='<%= icon %>'/>
+                        <div class="clear">&nbsp;</div>
+                        <div id="info" style=" width: 100%; text-align: center; color:red;font-weight: bold;"></div>
+                        <div class="inputs">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input autocomplete="off" id="userName" name="userName"
+                                           class="pull-left  percent100 mar-b-30" type="text" placeholder="İsminiz"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <input autocomplete="off" id="email" name="email" class="pull-right percent100"
+                                           type="text" placeholder="e-Posta"/>
+                                </div>
+                            </div>
+                            <textarea id="message" name="message" placeholder="Mesajınız"></textarea>
+                            <div>
+                                <div style="float:left;" class="g-recaptcha"
+                                     data-sitekey="6LeD-CoUAAAAALSpDrPRIdXH_RU6u1kzuxuTzJkf"></div>
+                                <input style="float:right;" type="submit" class="sendBtn" value="Gönder"/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-12">
+                        <h2><span><%= header %></span></h2>
+                        <p>
+                            <%= body %>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Footer Start-->
+        <% include footer.ejs %>
+        <!--Footer End-->
+    </div>
+    <div id="loading" class="modal" style="display: none">
+        <div class="center">
+            <img alt="" src="images/sending.gif"/>
+        </div>
+    </div>
+</form>
+
+<script src="/scripts/jquery-1.9.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/jquery.mCustomScrollbar.min.js"></script>
+<script src="/scripts/main.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#myForm').submit(function () {
+            if(!ValidateInputs()){
+                return false;
+            }
+            $(this).ajaxSubmit({
+                error: function (xhr) {
+                    $('#info').text("Doğrulama kodu girişinde bir hata oldu. Daha sonra tekrar deneyini!");
+                    $('#info').css('color', 'red');
+                    console.log(xhr.status);
+                },
+                success: function (response) {
+                    if (response.responseCode == 0) {
+                        SendFormContactToServer();
+                    }
+                    else {
+                        $('#info').text(response.responseDesc);
+                        $('#info').css('color', 'red');
+                    }
+
+                }
+            });
+            //Very important line, it disable the page refresh.
+            return false;
+        });
+    });
+
+    var userNameValue;
+    var emailValue;
+    var messageValue;
+
+    function ValidateInputs() {
+        $('#info').text("");
+
+        userNameValue = $('#userName').val();
+        if (userNameValue == '') {
+            $('#info').text("Lütfen ad soyad belirtiniz!");
+            $('#info').css('color', 'red');
+            $('#userName').css('border-color', 'red');
+            $('#userName').focus();
+            return false;
+        } else {
+            $('#userName').css('border-color', 'green');
+        }
+
+        emailValue = $('#email').val();
+        if (emailValue == '') {
+            $('#info').text("Lütfen email adresi giriniz!");
+            $('#info').css('color', 'red');
+            $('#email').css('border-color', 'red');
+            $('#email').focus();
+            return false;
+        } else if (!isEmailAddress(emailValue)) {
+            $('#info').text("Lütfen geçerli bir email adresi giriniz!");
+            $('#info').css('color', 'red');
+            $('#email').css('border-color', 'red');
+            $('#email').focus();
+            return false;
+        } else {
+            $('#email').css('border-color', 'green');
+        }
+
+        messageValue = $('#message').val();
+        if (messageValue == '') {
+            $('#info').text("Lütfen mesajınızı belirtiniz!");
+            $('#info').css('color', 'red');
+            $('#message').css('border-color', 'red');
+            $('#message').focus();
+            return false;
+        } else if (messageValue.length < 10) {
+            $('#info').text("Mesaj en az 10 karakter olmalıdır");
+            $('#info').css('color', 'red');
+            $('#message').css('border-color', 'red');
+            $('#message').focus();
+            return false;
+        }
+        else {
+            $('#message').css('border-color', 'green');
+        }
+
+        return true;
+    }
+
+    function ClearInputs() {
+        grecaptcha.reset();
+        $('#userName').val('');
+        $('#email').val('');
+        $('#message').val('');
+
+        $('#info').innerHTML = "";
+        $('#info').css('color', 'red');
+
+        $('#userName').css('border-color', '#cbd9dd');
+        $('#email').css('border-color', '#cbd9dd');
+        $('#message').css('border-color', '#cbd9dd');
+
+    }
+
+    function SendFormContactToServer() {
+        $.ajaxSetup({
+            beforeSend: (function () {
+                $("#loading").show();
+            })
+        });
+
+        $.post("/contact/add",
+            {email: emailValue, message: messageValue, userName: userNameValue},
+            function (data, status) {
+
+                console.log("asddsa");
+                if (status == "success") {
+                    setTimeout(function () {
+                        $("#loading").hide();
+                        ClearInputs();
+                        $('#info').css('color', 'green');
+                        $('#info').text(data);
+                    }, 2000);
+                } else {
+                    $("#loading").hide();
+                    $('#info').text("Mesaj iletilirken bir hata oluştu");
+                }
+            });
+    }
+
+    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+    function isEmailAddress(str) {
+        return str.match(pattern);
+    }
+</script>
+</body>
+
+</html>

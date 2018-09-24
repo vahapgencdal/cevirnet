@@ -1,0 +1,34 @@
+<header>
+            <div class="container">
+                <i class="fa fa-bars menuBars">&nbsp;</i>
+                <nav class="topMenu">
+                    <img src="images/whiteLogo.png" class="whiteLogo" />
+                    <ul class="menu">
+                        <li>
+                            <a href="/" class="<%=page=='index'?'selected':''%>" id="index">
+                            Ana Sayfa
+                        </a>
+                        </li>
+                        <li>
+                            <a id="about"  class="<%=page=='about'?'selected':''%>" href="/about">
+                            Çevir.NET Hakkında
+                        </a>
+                        </li>
+                        <li class="pull-right">
+                            <a id="contact" class="<%=page=='contact'?'selected':''%>" href="/contact">
+                            İletişim
+                        </a>
+                        </li>
+                    </ul>
+                    <ul class="horizontal pull-right socialIcons">
+                        <li><a href="javascript:"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="javascript:"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="javascript:"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                    </ul>
+                </nav>
+                <a href="javascript:;"  class="btn btn-link pull-right speechBtn"><i class="fa fa-microphone fs32">&nbsp;</i></a>
+                <a href="/" class="mobileLogo">
+                <img src="images/mobileLogo.png" />
+            </a>
+            </div>
+        </header>

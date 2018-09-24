@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ÇevirNet</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css" />
+    <link rel="stylesheet" href="/css/default.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+</head>
+
+<body>
+    <div class="wrapper">
+        <!--Header Start-->
+         <% include header.ejs %>
+        <!--Header End-->
+        <div class="clear">&nbsp;</div>
+        <section class="innerContent mar-t-100">
+            <div class="container">
+                <div class="col-md-4 col-xs-12 mar-b-40">
+                    <img src='<%=icon%>' class="img-responsive center-block" />
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <h2><span><%=title%></span></h2>
+                    <p><%=content%></p>
+                </div>
+            </div>
+        </section>
+        <!--Footer Start-->
+        <%include footer.ejs %>
+        <!--Footer End-->
+    </div>
+    <script src="/scripts/jquery-1.9.1.min.js"></script>
+    <script src="/scripts/bootstrap.min.js"></script>
+    <script src="/scripts/jquery.mCustomScrollbar.min.js"></script>
+    <script src="/scripts/main.js"></script>
+</body>
+
+</html>

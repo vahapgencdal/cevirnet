@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ÇevirNet</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&amp;subset=latin-ext" rel="stylesheet">
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+<link rel="stylesheet" href="/css/default.css"/>
+<link rel="stylesheet" href="/css/layout.css"/>
+<link rel="stylesheet" href="/css/bootstrap-multiselect.css"/>
+<link rel="stylesheet" href="/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/bootstrap-tagsinput.css"/>
+
+
+<style>
+    #exTab1 .nav-pills > li > a {
+        border-radius: 0;
+    }
+
+    .container {
+        font-weight: bold;
+
+    }
+
+    .container li a {
+        font-weight: bold;
+        color: #337ab7;
+    }
+
+    .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+        background-color: #337ab7;
+        color: #f7921e !important;
+    }
+
+    .tab-content {
+        /*background-color: #337ab7 !important;*/
+    }
+
+    .tab-pane {
+
+    }
+
+    .tableHeaderCell {
+        background-color: #337ab7;
+        color: #f7921e;
+    }
+
+    .SubMenuTitle {
+        color: #f7921e;
+    }
+
+    #example tbody tr:hover td, #example tbody tr:hover th {
+        background-color: #f7d900;
+    }
+
+    #exTab3 .tab-content {
+        padding: 5px 15px;
+    }
+
+    .nav-divider > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+        background-color: #337ab7;
+        color: #f7921e !important;
+    }
+
+    .bootstrap-tagsinput{
+        width: 100% !important;
+    }
+</style>
+</head>
+<body>
+
+
+<div class="container">
+    <i class="menuBars">&nbsp;</i>
+    <nav class="topMenu">
+
+        <ul class="menu">
+
+            <li>
+
+                <a href="#">
+                    Merhaba : <%= user.username %>
+                </a>
+            </li>
+            <li class="pull-right">
+                <a href="/admin/signout">Çıkış Yap</a>
+            </li>
+        </ul>
+
+    </nav>
+</div>
+
+
+<div class="container"><h1>ÇevirNet Admin Paneldesiniz </h1></div>
+<div id="exTab1" class="container">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#1a" data-toggle="tab">HAKKINDA SAYFASI</a>
+        </li>
+        <li><a href="#2a" data-toggle="tab">İLTİŞİM SAYFASI</a>
+        </li>
+        <li><a href="#3a" data-toggle="tab">KATEGORİLER</a>
+        </li>
+        <li><a href="#4a" data-toggle="tab">KATEGORİ MENU</a>
+        </li>
+    </ul>
+
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="1a">
+            <h3 class="SubMenuTitle">Hakkında sayfası içeriği değiştirme paneli.</h3>
+            <div>
+                <div class="form-group">
+                    <label for="txtTitle">Başlık</label>
+                    <input type="text" class="form-control" name="title" id="titleAbout" required rows="1"/>
+                </div>
+                <div class="form-group">
+                    <label for="txtContent">Sayfa İçeriği</label>
+                    <textarea name="content" class="form-control" id="contentAbout" required rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fileIcon">İcon Seç</label>
+                    <input type="file" name="file" class="form-control-file" id="fileAbout" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted"></small>
+                </div>
+                <button type="button" onclick="updateAboutContent()" class="btn btn-primary">KAYDET</button>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="2a">
+            <h3 class="SubMenuTitle">İletişim sayfası içeriği değiştirme paneli.</h3>
+
+            <div>
+                <div class="form-group">
+                    <label for="txtTitle">Başlık</label>
+                    <textarea class="form-control" id="titleContact" name="titleContact" required rows="1"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="txtContent">Sayfa İçeriği</label>
+                    <textarea class="form-control" id="contentContact" name="contentContact" required
+                              rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="fileIcon">İcon Seç</label>
+                    <input type="file" class="form-control-file" id="fileContact" name="fileContact"
+                           aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted"></small>
+                </div>
+
+
+                <button type="button" onclick="updateContactContent()" class="btn btn-primary">KAYDET</button>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="3a">
+            <%include home-category.ejs %>
+        </div>
+        <div class="tab-pane" id="4a">
+            <%include home-categorymenu.ejs %>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+
+<script src="/scripts/jquery-1.9.1.min.js"></script>
+<script src="/scripts/bootstrap.min.js"></script>
+<script src="/scripts/bootstrap-multiselect.js"></script>
+<script src="/scripts/jquery.dataTables.min.js"></script>
+<script src="/scripts/dataTables.bootstrap.min.js"></script>
+<script src="/scripts/bootstrap-tagsinput.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#example').DataTable(
+            {
+                "language": {
+                    "sDecimal": ",",
+                    "sEmptyTable": "Tabloda herhangi bir veri mevcut değil",
+                    "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                    "sInfoEmpty": "Kayıt yok",
+                    "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+                    "sLoadingRecords": "Yükleniyor...",
+                    "sProcessing": "İşleniyor...",
+                    "sSearch": "Ara:",
+                    "sZeroRecords": "Eşleşen kayıt bulunamadı",
+                    "oPaginate": {
+                        "sFirst": "İlk",
+                        "sLast": "Son",
+                        "sNext": "Sonraki",
+                        "sPrevious": "Önceki"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": artan sütun sıralamasını aktifleştir",
+                        "sSortDescending": ": azalan sütun sıralamasını aktifleştir"
+                    }
+                }
+            }
+        );
+    });
+
+
+
+
+    function updateAboutContent() {
+        let title = $('#titleAbout').val();
+        let content = $('#contentAbout').val();
+
+        var formData = new FormData();
+        formData.append('file', $('#fileAbout')[0].files[0]);
+        formData.append('title', title);
+        formData.append('content', content);
+
+        $.ajax({
+            url: '/admin/about/updatecontent',
+            type: 'POST',
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                if (data.result === "SUCCESS") {
+                    $('#titleAbout').val("");
+                    $('#contentAbout').val("");
+                    $('#fileAbout').val("");
+                    alert(data.errorMessage);
+                } else {
+                    alert(data.errorMessage);
+                }
+            }
+        });
+    }
+
+    function updateContactContent() {
+        let title = $('#titleContact').val();
+        let content = $('#contentContact').val();
+
+        var formData = new FormData();
+        formData.append('file', $('#fileContact')[0].files[0]);
+        formData.append('title', title);
+        formData.append('content', content);
+
+        $.ajax({
+            url: '/admin/contact/updatecontent',
+            type: 'POST',
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (data) {
+                if (data.result === "SUCCESS") {
+                    $('#titleContact').val("");
+                    $('#contentContact').val("");
+                    $('#fileContact').val("");
+                    alert(data.errorMessage);
+                } else {
+                    alert(data.errorMessage);
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('#categoriesMultipleSelect').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true
+        });
+
+        $('#categoryUnitsMultipleSelect').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true
+        });
+
+
+    });
+</script>
+<script src="/scripts/category.js"></script>
+<script src="/scripts/categoryMenu.js"></script>
+
+</body>
+</html>
